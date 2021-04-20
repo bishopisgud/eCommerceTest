@@ -44,7 +44,7 @@ app.post('/staffLogin', loginRoute);
 //Sales Operation Connection
 app.post('/salesOp', salesOperation);
 
-
+console.log('here');
 http.listen(port, () => {
     console.log('Running on port: '+port);
 });
