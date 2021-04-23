@@ -1,13 +1,18 @@
 const express = require('express');
 const session = require('express-session');
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');  
 
-const { signupRoute, loginRoute } = require('./routes/staffRegAndLogin');
-const {custSignupRoute, custLoginRoute}  = require('./routes/cusRegAndLogin');
-const salesOperation = require('./routes/salesOperation');
+const { signupRoute, loginRoute } = require('./routes/staffRegAndLogin'); // Staff Reg and Login
+const {custSignupRoute, custLoginRoute}  = require('./routes/cusRegAndLogin');// Customer's Reg and Login
+const product = require('./routes/product');// Products
+const productSalesOp = require('./routes/productSales');//ProductSales Operation
+const productStockOp = require('./routes/productStock');//ProductStock Operation
+const orderOperation = require('./routes/orders');//Order Operation
+const stateOperation = require('./routes/state');
 
 const db = require('./db/dbConfig');
+
 const app = express();
 
 const http = require('http').Server(app);
@@ -41,10 +46,22 @@ app.post('/customerLogin', custLoginRoute);
 app.post('/staffSignup', signupRoute);
 app.post('/staffLogin', loginRoute);
 
-//Sales Operation Connection
-app.post('/salesOp', salesOperation);
 
-console.log('here');
+//product Connection
+app.post('/productCalc', product);
+
+//productSales Connection
+app.post('/onSales', productSalesOp);
+
+//productStock Connection
+app.post('/onStock', productStockOp);
+
+//Orders Connection
+app.post('/orders', orderOperation);
+
+//State Connection
+app.post('/state', stateOperation);
+
 http.listen(port, () => {
     console.log('Running on port: '+port);
 });

@@ -1,10 +1,8 @@
 const formidable = require('formidable');
-const bcrypt = require('bcrypt');
 const db = require('../db/dbConfig');
 
 
-//Staff Signup Session
-let salesOperation = (req, res) => {
+let productSalesOp = (req, res) => {
     if (!req.session.loggedIn) {
         regEcommerce = new Object();
 
@@ -21,7 +19,7 @@ let salesOperation = (req, res) => {
                     regEcommerce.OrderId = value;
                 }
                 if (field == 'staffId') {
-                    regEcommerce.OrderId = value;
+                    regEcommerce.staffId = value;
                 }
             })
             .on('aborted', () => {
@@ -33,20 +31,18 @@ let salesOperation = (req, res) => {
             })
             .on('end', () => {
 
+            //Insertion of Products
+            let err;
+            let userStaff = {productStockId: regEcommerce.productStockId, Quantity: regEcommerce.Quantity, OrderId: regEcommerce.OrderId, staffId: regEcommerce.staffId};
+            let sql = 'INSERT INTO productSales SET ?';
+            db.query(sql, userStaff, (err, results) =>{
+                if(err) throw err;
+                console.log(results);
+            });
+                
+        });
+    };
+};
 
-                //create Staff Registration
-                if (!err) {
-                    let userStaff = {productStockId: regEcommerce.productStockId, Quantity: regEcommerce.Quantity, OrderId: regEcommerce.OrderId, staffId: regEcommerce.staffId}
-                    let sql = 'INSERT INTO productSales SET ?';
-                    db.query(sql, userStaff, (err, results) =>{
-                        if(err) throw err;
-                        console.log(results);
-                    });
-                    
-                }
 
-            })
-    }
-}
-
-module.exports = salesOperation;
+module.exports = productSalesOp;

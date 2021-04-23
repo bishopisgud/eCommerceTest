@@ -30,7 +30,7 @@ let signupRoute = (req, res) => {
             .on('end', () => {
 
 
-                //create Staff Registration
+            
                 let salt = 10;
                 bcrypt.hash(regEcommerce.userPass, salt, function (err, encrypted) {
                     if (!err) {
